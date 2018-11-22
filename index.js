@@ -43,8 +43,10 @@ app.put(genre_uri + '/:id', (req, res) => {
 });
 
 app.delete(genre_uri + '/:id', (req, res) => {
-    // todo validate that the record exists
-    // delete the record
+    const genre = genres.find(id => id === parseInt(req.body.id));
+    if (!genre) return res.status(404).send(`No genre with id: ${req.body.id} found.`);
+    genres.slice(genres.indexOf(genre), 1);
+    res.send(genre);
 })
 
 // This is how you set a port from an environment variable
