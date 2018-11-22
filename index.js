@@ -9,6 +9,7 @@ let genres = [
 ]
 
 const app = express();
+app.use(express.json());
 
 function validateGenre(g) {
     const schema = {
