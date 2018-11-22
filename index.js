@@ -10,14 +10,27 @@ let genres = [
 
 const app = express();
 
+function validateGenre(g) {
+    const schema = {
+        name: Joi.string().min(3).required()
+    };
+    return Joi.validate(g, schema);
+}
+
 const genre_uri = '/api/genres';
 app.get(genre_uri, (req, res) => {
     res.send(genres);
 });
 
 app.post(genre_uri, (req, res) => {
-    // todo input validation
-    // todo append new body to list
+    const { error } = validateGenre(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+    const genre = {
+        id: genres.length + 1,
+        name: req.body.name
+    };
+    genres.push(genre);
+    res.send(genre);
 });
 
 app.put(genre_uri + '/:id', (req, res) => {
