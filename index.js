@@ -13,6 +13,7 @@ app.use(express.json());
 
 function validateGenre(g) {
     const schema = {
+        id: Joi.number(), // Added this so that we can do put without uri params
         name: Joi.string().min(3).required()
     };
     return Joi.validate(g, schema);
@@ -34,19 +35,19 @@ app.post(genre_uri, (req, res) => {
     res.send(genre);
 });
 
-app.put(genre_uri + '/:id', (req, res) => {
-    const genre = genres.find(id => id === parseInt(req.body.id));
+app.put(genre_uri, (req, res) => {
+    const genre = genres.find(g => g.id === parseInt(req.body.id));
     if (!genre) return res.status(404).send(`No genre with id: ${req.body.id} found.`);
     const { error } = validateGenre(req.body);
-    if (error) return res.statusCode(400).send(error);
+    if (error) return res.status(400).send(error);
     genre.name = req.body.name;
     res.send(genre);    
 });
 
 app.delete(genre_uri + '/:id', (req, res) => {
-    const genre = genres.find(id => id === parseInt(req.body.id));
-    if (!genre) return res.status(404).send(`No genre with id: ${req.body.id} found.`);
-    genres.slice(genres.indexOf(genre), 1);
+    const genre = genres.find(g => g.id === parseInt(req.params.id));
+    if (!genre) return res.status(404).send(`No genre with id: ${req.params.id} found.`);
+    genres.splice(genres.indexOf(genre), 1); // note: splice, not slice
     res.send(genre);
 })
 
