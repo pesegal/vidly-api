@@ -34,9 +34,12 @@ app.post(genre_uri, (req, res) => {
 });
 
 app.put(genre_uri + '/:id', (req, res) => {
-    // todo validate input
-    // todo modify the document
-    // todo 
+    const genre = genres.find(id => id === parseInt(req.body.id));
+    if (!genre) return res.status(404).send(`No genre with id: ${req.body.id} found.`);
+    const { error } = validateGenre(req.body);
+    if (error) return res.statusCode(400).send(error);
+    genre.name = req.body.name;
+    res.send(genre);    
 });
 
 app.delete(genre_uri + '/:id', (req, res) => {
