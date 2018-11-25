@@ -11,60 +11,48 @@ const genreSchema = new mongoose.Schema({
 
 const Genre = mongoose.model('Genre', genreSchema);
 
-routes.get('/', (req, res) => {
-    async function getGenres() {
-        const genres = await Genre.find().select({ _id:1, name:1 });
-        return res.send(genres);
-    }
-    getGenres();
+routes.get('/', async (req, res) => {
+    const genres = await Genre.find().select({ _id:1, name:1 });
+    return res.send(genres);
 });
 
-routes.post('/', (req, res) => {
+routes.post('/', async (req, res) => {
     const { error } = validateGenre(req.body);
     if (error) return res.status(400).send(error.details[0].message);
     // Create in database
-    async function createGenre(body) {
-        const genre = new Genre({
-            name: body.name
-        });
-        try {
-            const result = await genre.save();
-            res.send(result);
-        }
-        catch (err) {
-            res.send(err);
-        }
-    }
-    createGenre(req.body);
-});
-
-routes.put('/:id', (req, res) => {
-    async function updateGenre(id, body) {
-        // find object
-        const genre = await Genre.findById(id);
-        if (!genre) return new Error(`No genre with id: ${id} found.`);
-        // validate body
-        const { error } = validateGenre(body);
-        if (error) return res.status(400).send(error);
-        // Update item
-        genre.set(body);
-        try {
-            res.send(await genre.save());
-        }
-        catch(err) {
-            res.send(err);
-        }        
-    }
-    updateGenre(req.params.id, req.body);    
-});
-
-routes.delete('/:id', (req, res) => {
-    async function removeGenre(id) {           
-        const result = await Genre.deleteOne({ _id: id });
-        if (!result) return res.status(404).send(`No genre with id: ${id} found.`);
+    const genre = new Genre({
+        name: req.body.name
+    });
+    try {
+        const result = await genre.save();
         res.send(result);
     }
-    removeGenre(req.params.id);
+    catch (err) {
+        res.send(err);
+    }
+});
+
+routes.put('/:id', async (req, res) => {
+    // find object
+    const genre = await Genre.findById(req.params.id);
+    if (!genre) return new Error(`No genre with id: ${req.params.id} found.`);
+    // validate body
+    const { error } = validateGenre(req.body);
+    if (error) return res.status(400).send(error);
+    // Update item
+    genre.set(req.body);
+    try {
+        res.send(await genre.save());
+    }
+    catch(err) {
+        res.send(err);
+    }          
+});
+
+routes.delete('/:id', async (req, res) => {         
+    const result = await Genre.deleteOne({ _id: req.params.id });
+    if (!result) return res.status(404).send(`No genre with id: ${req.params.id} found.`);
+    res.send(result);
 });
 
 function validateGenre(g) {
