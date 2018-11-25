@@ -42,9 +42,9 @@ routes.put('/:id', async (req, res) => {
 });
 
 routes.delete('/:id', async (req, res) => {         
-    const result = await Genre.deleteOne({ _id: req.params.id });
-    if (!result) return res.status(404).send(`No genre with id: ${req.params.id} found.`);
-    res.send(result);
+    const genre = await Genre.findByIdAndRemove(req.params.id);
+    if (!genere) return res.status(404).send(`No genre with id: ${req.params.id} found.`);
+    res.send(genre);
 });
 
 function validateGenre(g) {
