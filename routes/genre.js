@@ -34,19 +34,7 @@ routes.post('/', async (req, res) => {
 
 routes.put('/:id', async (req, res) => {
     // find object
-    const genre = await Genre.findById(req.params.id);
-    if (!genre) return new Error(`No genre with id: ${req.params.id} found.`);
-    // validate body
-    const { error } = validateGenre(req.body);
-    if (error) return res.status(400).send(error);
-    // Update item
-    genre.set(req.body);
-    try {
-        res.send(await genre.save());
-    }
-    catch(err) {
-        res.send(err);
-    }          
+    const genre = await Genre.findByIdAndUpdate(req.params.id, { name: req.body.name }, { new: true});       
 });
 
 routes.delete('/:id', async (req, res) => {         
