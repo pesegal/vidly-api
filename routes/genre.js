@@ -33,8 +33,12 @@ routes.post('/', async (req, res) => {
 });
 
 routes.put('/:id', async (req, res) => {
-    // find object
-    const genre = await Genre.findByIdAndUpdate(req.params.id, { name: req.body.name }, { new: true});       
+    // validate body
+    const { error } = validateGenre(req.body);
+    if (error) return res.status(400).send(error);
+    const genre = await Genre.findByIdAndUpdate(req.params.id, { name: req.body.name }, { new: true});
+    if (!genre) return new Error(`No genre with id: ${req.params.id} found.`);
+    res.send(genre);
 });
 
 routes.delete('/:id', async (req, res) => {         
