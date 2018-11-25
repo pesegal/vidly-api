@@ -36,16 +36,22 @@ routes.put('/:id', async (req, res) => {
     // validate body
     const { error } = validateGenre(req.body);
     if (error) return res.status(400).send(error);
-    const genre = await Genre.findByIdAndUpdate(req.params.id, { name: req.body.name }, { new: true});
-    if (!genre) return new Error(`No genre with id: ${req.params.id} found.`);
+    const genre = await Genre.findByIdAndUpdate(req.params.id, { name: req.body.name }, { new: true });
+    if (!genre) return res.status(404).send(Error(`No genre with id: ${req.params.id} found.`));
     res.send(genre);
 });
 
 routes.delete('/:id', async (req, res) => {         
-    const genre = await Genre.findByIdAndRemove(req.params.id);
-    if (!genere) return res.status(404).send(`No genre with id: ${req.params.id} found.`);
+    const genre = await Genre.findByIdAndDelete(req.params.id);
+    if (!genre) return res.status(404).send(`No genre with id: ${req.params.id} found.`);
     res.send(genre);
 });
+
+routes.get('/:id', async (req, res) => {
+    const genre = await Genre.findById(req.params.id);
+    if (!genre) return res.status(404).send('The genre with the given ID not found');
+    res.send(genre);
+})
 
 function validateGenre(g) {
     const schema = {
