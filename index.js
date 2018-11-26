@@ -1,10 +1,12 @@
 const express = require('express');
 const genres = require('./routes/genre');
+const customers = require('./routes/customers')
 const mongoose = require('mongoose');
 
 const app = express();
 app.use(express.json());
 app.use('/api/genres', genres);
+app.use('/api/customers', customers);
 
 // Connect to MongoDB
 mongoose.connect('mongodb://localhost/vidly', { useNewUrlParser: true })
