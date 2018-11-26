@@ -1,27 +1,8 @@
 const express = require('express');
 const routes = express.Router();
-
 const mongoose = require('mongoose');
-const Joi = require('joi');
+const { Customer, validate } = require('../models/customers');
 
-// Define the customer Schema
-const customerSchema = mongoose.Schema({
-    isGold: Boolean,
-    name: { type: String, required: true },
-    phone: String
-});
-
-// Define customer Joi Validation Schema
-function validateCustomer(customer) {
-    const schema = {
-        isGold: Joi.boolean().default(false),
-        name: Joi.string().required(),
-        phone: Joi.string().allow('')
-    }
-    return Joi.validate(customer, schema);
-}
-
-const Customer = mongoose.model('Customer', customerSchema);
 
 // Customer Routes
 routes.get('/', async (req, res) => {
@@ -30,7 +11,7 @@ routes.get('/', async (req, res) => {
 })
 
 routes.post('/', async (req, res) => {
-    const { error } = validateCustomer(req.body);
+    const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
     const customer = new Customer({
         isGold: req.body.isGold,
@@ -48,7 +29,7 @@ routes.post('/', async (req, res) => {
 });
 
 routes.put('/:id', async (req, res) => {
-    const { error } = validateCustomer(req.body);
+    const { error } = validate(req.body);
     if (error) return res.status(400).send(error);
     const customer = await Customer.findByIdAndUpdate(req.params.id, {
         isGold: req.body.isGold,
