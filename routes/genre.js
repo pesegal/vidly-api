@@ -1,15 +1,7 @@
 const express = require('express');
 const routes = express.Router();
-const Joi = require('joi');
-
 const mongoose = require('mongoose');
-
-
-const genreSchema = new mongoose.Schema({
-    name: { type:String, required: true, minlength: 3 }
-});
-
-const Genre = mongoose.model('Genre', genreSchema);
+const { Genre, validate } = require('../models/genre');
 
 routes.get('/', async (req, res) => {
     const genres = await Genre.find().select({ _id:1, name:1 });
@@ -17,7 +9,7 @@ routes.get('/', async (req, res) => {
 });
 
 routes.post('/', async (req, res) => {
-    const { error } = validateGenre(req.body);
+    const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
     // Create in database
     const genre = new Genre({
@@ -34,7 +26,7 @@ routes.post('/', async (req, res) => {
 
 routes.put('/:id', async (req, res) => {
     // validate body
-    const { error } = validateGenre(req.body);
+    const { error } = validate(req.body);
     if (error) return res.status(400).send(error);
     const genre = await Genre.findByIdAndUpdate(req.params.id, { name: req.body.name }, { new: true });
     if (!genre) return res.status(404).send(Error(`No genre with id: ${req.params.id} found.`));
@@ -52,12 +44,5 @@ routes.get('/:id', async (req, res) => {
     if (!genre) return res.status(404).send('The genre with the given ID not found');
     res.send(genre);
 })
-
-function validateGenre(g) {
-    const schema = {
-        name: Joi.string().min(3).required()
-    };
-    return Joi.validate(g, schema);
-}
 
 module.exports = routes;
