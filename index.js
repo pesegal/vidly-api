@@ -1,12 +1,14 @@
 const express = require('express');
 const genres = require('./routes/genre');
-const customers = require('./routes/customers')
+const customers = require('./routes/customers');
+const movies = require('./routes/movies');
 const mongoose = require('mongoose');
 
 const app = express();
 app.use(express.json());
 app.use('/api/genres', genres);
 app.use('/api/customers', customers);
+app.use('/api/movies', movies);
 
 // Connect to MongoDB
 mongoose.connect('mongodb://localhost/vidly', { useNewUrlParser: true })
