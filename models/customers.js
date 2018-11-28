@@ -19,5 +19,6 @@ const customerSchema = mongoose.Schema({
 
 const Customer = mongoose.model('Customer', customerSchema);
 
+exports.customerSchema = customerSchema;
 exports.Customer = Customer;
 exports.validate = validateCustomer;
