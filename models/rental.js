@@ -4,8 +4,8 @@ const { customerSchema } = require('./customers');
 const { movieSchema } = require('./movies')
 
 const joiRentalSchema = {
-    customerId: Joi.string().required(),
-    movieIds: Joi.array().items(Joi.string().required())
+    customerId: Joi.objectId().required(),
+    movieIds: Joi.array().items(Joi.objectId().required())
 };
 
 function validateRental(rental) {

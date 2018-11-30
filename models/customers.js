@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
-const Joi = require('joi');
+const Joi      = require('joi');
 
 // Define customer Joi Validation Schema
 function validateCustomer(customer) {
     const schema = {
         isGold: Joi.boolean().default(false),
-        name: Joi.string().required(),
-        phone: Joi.string().allow('')
+        name:   Joi.string().required(),
+        phone:  Joi.string().allow('')
     }
     return Joi.validate(customer, schema);
 }
@@ -20,5 +20,5 @@ const customerSchema = mongoose.Schema({
 const Customer = mongoose.model('Customer', customerSchema);
 
 exports.customerSchema = customerSchema;
-exports.Customer = Customer;
-exports.validate = validateCustomer;
+exports.Customer       = Customer;
+exports.validate       = validateCustomer;

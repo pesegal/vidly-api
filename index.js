@@ -1,3 +1,5 @@
+const Joi = require('joi');
+Joi.objectId = require('joi-objectid')(Joi); // Note this object needs to be above the route loading.
 const express = require('express');
 const genres = require('./routes/genre');
 const customers = require('./routes/customers');

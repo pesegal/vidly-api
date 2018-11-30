@@ -14,6 +14,7 @@ routes.post('/', async (req, res) => {
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
     // Create in database
+
     const customer = await Customer.findById(req.body.customerId).select('-__v');
     if (!customer) return res.status(400).send('Invalid Customer');
 

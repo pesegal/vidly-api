@@ -26,8 +26,8 @@ routes.post('/', async (req, res) => {
         dailyRentalRate: req.body.dailyRentalRate
     });
     try {
-        const result = await movie.save();
-        res.send(result);
+        await movie.save();
+        res.send(movie);
     }
     catch (err) {
         res.send(err);
