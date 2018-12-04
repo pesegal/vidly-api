@@ -4,8 +4,6 @@ const express = require('express');
 const routes = express.Router();
 const mongoose = require('mongoose');
 const { User, validate } = require('../models/users');
-const jwt = require('jsonwebtoken');
-const config = require('config');
 
 // User Routes
 routes.post('/', async (req, res) => {
@@ -21,7 +19,7 @@ routes.post('/', async (req, res) => {
 
     await user.save();
 
-    const token = jwt.sign({ _id: user._id }, config.get('jwtPrivateKey'));
+    const token = user.generateAuthToken();
     res.header('x-auth-token', token).send(_.pick(user, ['_id', 'name', 'email']));
 });
 
