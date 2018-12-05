@@ -4,6 +4,13 @@ const express = require('express');
 const routes = express.Router();
 const mongoose = require('mongoose');
 const { User, validate } = require('../models/users');
+const auth = require('../middleware/auth');
+
+// me instead of id so you can't send another persons id. instead get the id from the auth token.
+routes.get('/me', auth, async (req, res) => {
+    const user = await User.findById(req.user._id).select('-password');
+    res.send(user);
+});
 
 // User Routes
 routes.post('/', async (req, res) => {
