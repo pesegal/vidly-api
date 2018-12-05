@@ -4,13 +4,15 @@ const mongoose = require('mongoose');
 const { Rental, validate } = require('../models/rental');
 const { Customer } = require('../models/customers');
 const { Movie } = require('../models/movies');
+const auth = require('../middleware/auth');
+
 
 routes.get('/', async (req, res) => {
     const rental = await Rental.find();
     return res.send(rental);
 });
 
-routes.post('/', async (req, res) => {
+routes.post('/', auth, async (req, res) => {
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
     // Create in database

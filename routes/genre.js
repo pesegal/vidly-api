@@ -25,7 +25,7 @@ routes.post('/', auth, async (req, res) => {
     }
 });
 
-routes.put('/:id', async (req, res) => {
+routes.put('/:id', auth, async (req, res) => {
     // validate body
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error);
@@ -34,7 +34,7 @@ routes.put('/:id', async (req, res) => {
     res.send(genre);
 });
 
-routes.delete('/:id', async (req, res) => {         
+routes.delete('/:id', auth, async (req, res) => {         
     const genre = await Genre.findByIdAndDelete(req.params.id);
     if (!genre) return res.status(404).send(`No genre with id: ${req.params.id} found.`);
     res.send(genre);

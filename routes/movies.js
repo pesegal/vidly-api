@@ -3,13 +3,15 @@ const routes = express.Router();
 const mongoose = require('mongoose');
 const { Movie, validate } = require('../models/movies');
 const { Genre } = require('../models/genre');
+const auth = require('../middleware/auth');
+
 
 routes.get('/', async (req, res) => {
     const movies = await Movie.find().select({ _id:1, name:1 });
     return res.send(movies);
 });
 
-routes.post('/', async (req, res) => {
+routes.post('/', auth, async (req, res) => {
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
     // Create in database
@@ -34,7 +36,7 @@ routes.post('/', async (req, res) => {
     }
 });
 
-routes.put('/:id', async (req, res) => {
+routes.put('/:id', auth, async (req, res) => {
     // validate body
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error);
@@ -55,7 +57,7 @@ routes.put('/:id', async (req, res) => {
     res.send(movie);
 });
 
-routes.delete('/:id', async (req, res) => {         
+routes.delete('/:id', auth, async (req, res) => {         
     const movie = await Movie.findByIdAndDelete(req.params.id);
     if (!movie) return res.status(404).send(`No genre with id: ${req.params.id} found.`);
     res.send(movie);
