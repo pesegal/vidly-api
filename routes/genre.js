@@ -6,8 +6,14 @@ const mongoose = require('mongoose');
 const { Genre, validate } = require('../models/genre');
 
 routes.get('/', async (req, res) => {
-    const genres = await Genre.find().select({ _id:1, name:1 });
-    return res.send(genres);
+    try {
+        const genres = await Genre.find().select({ _id:1, name:1 });
+        res.send(genres);
+    }
+    catch (ex) {
+        // log the exception
+        res.status(500).send('Something failed.');
+    }
 });
 
 routes.post('/', auth, async (req, res) => {
