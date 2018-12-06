@@ -5,14 +5,13 @@ const routes = express.Router();
 const mongoose = require('mongoose');
 const { Genre, validate } = require('../models/genre');
 
-routes.get('/', async (req, res) => {
+routes.get('/', async (req, res, next) => {
     try {
         const genres = await Genre.find().select({ _id:1, name:1 });
         res.send(genres);
     }
     catch (ex) {
-        // log the exception
-        res.status(500).send('Something failed.');
+        next(ex);
     }
 });
 

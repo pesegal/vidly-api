@@ -19,6 +19,12 @@ app.use('/api/rentals', rentals);
 app.use('/api/users', users);
 app.use('/api/auth', auth);
 
+// Middleware function for handling errors. Orchestration
+app.use(function(err, req, res, next) {
+    // log the exception
+    res.status(500).send('Something failed.');
+});
+
 // Kill the app in case the environment variable is not set.
 if (!config.get('jwtPrivateKey')) {
     console.log('FATAL ERROR: jwtPrivateKey is not defined.');
