@@ -9,6 +9,7 @@ const users = require('./routes/users');
 const auth = require('./routes/auth');
 const mongoose = require('mongoose');
 const config = require('config');
+const error = require('./middleware/error');
 
 const app = express();
 app.use(express.json());
@@ -19,11 +20,8 @@ app.use('/api/rentals', rentals);
 app.use('/api/users', users);
 app.use('/api/auth', auth);
 
-// Middleware function for handling errors. Orchestration
-app.use(function(err, req, res, next) {
-    // log the exception
-    res.status(500).send('Something failed.');
-});
+// Middleware function for handling errors. Orchestration but not implementations.
+app.use(error);
 
 // Kill the app in case the environment variable is not set.
 if (!config.get('jwtPrivateKey')) {
