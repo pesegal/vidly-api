@@ -1,4 +1,5 @@
 require('express-async-errors') // this keeps us from having to explictly wrap each endpoint in a middleware call.
+const winston = require('winston');
 const Joi = require('joi');
 Joi.objectId = require('joi-objectid')(Joi); // Note this object needs to be above the route loading.
 const express = require('express');
@@ -12,6 +13,8 @@ const mongoose = require('mongoose');
 const config = require('config');
 const error = require('./middleware/error');
 
+winston.add(winston.transports.File, { filename: 'logfile.log' });
+
 const app = express();
 app.use(express.json());
 app.use('/api/genres', genres);
@@ -23,6 +26,8 @@ app.use('/api/auth', auth);
 
 // Middleware function for handling errors. Orchestration but not implementations.
 app.use(error);
+
+
 
 // Kill the app in case the environment variable is not set.
 if (!config.get('jwtPrivateKey')) {
