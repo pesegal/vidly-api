@@ -5,14 +5,9 @@ const routes = express.Router();
 const mongoose = require('mongoose');
 const { Genre, validate } = require('../models/genre');
 
-routes.get('/', async (req, res, next) => {
-    try {
-        const genres = await Genre.find().select({ _id:1, name:1 });
-        res.send(genres);
-    }
-    catch (ex) {
-        next(ex);
-    }
+routes.get('/', async (req, res) => {
+    const genres = await Genre.find().select({ _id:1, name:1 });
+    res.send(genres);
 });
 
 routes.post('/', auth, async (req, res) => {
