@@ -14,15 +14,21 @@ const mongoose = require('mongoose');
 const config = require('config');
 const error = require('./middleware/error');
 
+// Logic to capture uncaught exceptions 
 process.on('uncaughtException', (ex) => {
-    console.log('WE GOT AN UNCAUGHT EXCEPTION!')
     winston.error(ex.message, ex);
+    process.exit(1);
+});
+
+process.on('unhandledRejection', (ex) => {
+    winston.error(ex.message, ex);
+    process.exit(1);
 });
 
 winston.add(winston.transports.File, { filename: 'logfile.log' });
-winston.add(winston.transports.MongoDB, { db: 'mongodb://localhost/vidly', level: 'error' });
+winston.add(winston.transports.MongoDB, { db: 'mongodb://localhost/vidly', level: 'info' });
 
-throw new Error('Something failed during startup.');
+const p = Promise.reject(new Error('Something failed miserably!'));
 
 const app = express();
 app.use(express.json());
