@@ -1,5 +1,6 @@
 require('express-async-errors') // this keeps us from having to explictly wrap each endpoint in a middleware call.
 const winston = require('winston');
+require('winston-mongodb');
 const Joi = require('joi');
 Joi.objectId = require('joi-objectid')(Joi); // Note this object needs to be above the route loading.
 const express = require('express');
@@ -14,6 +15,7 @@ const config = require('config');
 const error = require('./middleware/error');
 
 winston.add(winston.transports.File, { filename: 'logfile.log' });
+winston.add(winston.transports.MongoDB, { db: 'mongodb://localhost/vidly' });
 
 const app = express();
 app.use(express.json());
