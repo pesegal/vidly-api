@@ -4,15 +4,10 @@ require('winston-mongodb');
 const Joi = require('joi');
 Joi.objectId = require('joi-objectid')(Joi); // Note this object needs to be above the route loading.
 const express = require('express');
-const genres = require('./routes/genre');
-const customers = require('./routes/customers');
-const movies = require('./routes/movies');
-const rentals = require('./routes/rental');
-const users = require('./routes/users');
-const auth = require('./routes/auth');
 const mongoose = require('mongoose');
 const config = require('config');
-const error = require('./middleware/error');
+const app = express();
+require('./starup/routes')(app);
 
 // Logic to capture uncaught exceptions 
 process.on('unhandledRejection', (ex) => {
@@ -25,20 +20,6 @@ winston.add(winston.transports.File, { filename: 'logfile.log' });
 winston.add(winston.transports.MongoDB, { db: 'mongodb://localhost/vidly', level: 'info' });
 
 const p = Promise.reject(new Error('Something failed miserably!'));
-
-const app = express();
-app.use(express.json());
-app.use('/api/genres', genres);
-app.use('/api/customers', customers);
-app.use('/api/movies', movies);
-app.use('/api/rentals', rentals);
-app.use('/api/users', users);
-app.use('/api/auth', auth);
-
-// Middleware function for handling errors. Orchestration but not implementations.
-app.use(error);
-
-
 
 // Kill the app in case the environment variable is not set.
 if (!config.get('jwtPrivateKey')) {
