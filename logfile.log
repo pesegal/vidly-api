@@ -3,3 +3,20 @@
 {"message":"Something failed during startup.","stack":"Error: Something failed during startup.\n    at Object.<anonymous> (/home/peter/code/mosh/vidly-api/index.js:25:7)\n    at Module._compile (internal/modules/cjs/loader.js:688:30)\n    at Object.Module._extensions..js (internal/modules/cjs/loader.js:699:10)\n    at Module.load (internal/modules/cjs/loader.js:598:32)\n    at tryModuleLoad (internal/modules/cjs/loader.js:537:12)\n    at Function.Module._load (internal/modules/cjs/loader.js:529:3)\n    at Function.Module.runMain (internal/modules/cjs/loader.js:741:12)\n    at startup (internal/bootstrap/node.js:285:19)\n    at bootstrapNodeJSCore (internal/bootstrap/node.js:739:3)","level":"error","timestamp":"2018-12-07T01:54:07.893Z"}
 {"message":"Something failed during startup.","stack":"Error: Something failed during startup.\n    at Object.<anonymous> (/home/peter/code/mosh/vidly-api/index.js:25:7)\n    at Module._compile (internal/modules/cjs/loader.js:688:30)\n    at Object.Module._extensions..js (internal/modules/cjs/loader.js:699:10)\n    at Module.load (internal/modules/cjs/loader.js:598:32)\n    at tryModuleLoad (internal/modules/cjs/loader.js:537:12)\n    at Function.Module._load (internal/modules/cjs/loader.js:529:3)\n    at Function.Module.runMain (internal/modules/cjs/loader.js:741:12)\n    at startup (internal/bootstrap/node.js:285:19)\n    at bootstrapNodeJSCore (internal/bootstrap/node.js:739:3)","level":"error","timestamp":"2018-12-07T01:54:09.643Z"}
 {"level":"info","message":"Connected to MongoDB","timestamp":"2018-12-10T04:51:05.262Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2018-12-10T04:57:47.023Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2018-12-10T04:57:51.333Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2018-12-10T04:57:53.160Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2018-12-10T04:58:04.737Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2018-12-10T04:58:17.337Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2018-12-10T04:59:08.414Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2018-12-10T04:59:11.216Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2018-12-10T04:59:13.315Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2018-12-10T04:59:18.102Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2018-12-10T04:59:20.260Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2018-12-10T04:59:37.255Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2018-12-10T04:59:42.915Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2018-12-10T04:59:57.906Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2018-12-10T05:00:07.918Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2018-12-10T05:00:19.069Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2018-12-10T05:00:27.187Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2018-12-10T05:00:31.633Z"}
