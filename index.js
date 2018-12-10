@@ -7,7 +7,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const config = require('config');
 const app = express();
-require('./starup/routes')(app);
+require('./startup/routes')(app);
 
 // Logic to capture uncaught exceptions 
 process.on('unhandledRejection', (ex) => {
