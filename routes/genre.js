@@ -6,8 +6,7 @@ const mongoose = require('mongoose');
 const { Genre, validate } = require('../models/genre');
 
 routes.get('/', async (req, res) => {
-    throw new Error('Could not get the genres.');
-    const genres = await Genre.find().select({ _id:1, name:1 });
+    const genres = await Genre.find();
     res.send(genres);
 });
 
