@@ -41,7 +41,9 @@ routes.delete('/:id', [auth, admin], async (req, res) => {
     res.send(genre);
 });
 
-routes.get('/:id', async (req, res) => {
+routes.get('/:id', async (req, res) => { 
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) 
+        return res.status(404).send('The genre with the given ID not found');
     const genre = await Genre.findById(req.params.id);
     if (!genre) return res.status(404).send('The genre with the given ID not found');
     res.send(genre);
