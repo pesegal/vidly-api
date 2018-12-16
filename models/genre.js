@@ -2,7 +2,7 @@ const Joi = require('joi');
 const mongoose = require('mongoose');
 
 const joiGenreSchema = {
-    name: Joi.string().min(3).required()
+    name: Joi.string().min(5).max(50).required()
 };
 function validateGenre(g) {
     return Joi.validate(g, joiGenreSchema);

@@ -15,16 +15,9 @@ routes.post('/', auth, async (req, res) => {
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
     // Create in database
-    const genre = new Genre({
-        name: req.body.name
-    });
-    try {
-        const result = await genre.save();
-        res.send(result);
-    }
-    catch (err) {
-        res.send(err);
-    }
+    let genre = new Genre({ name: req.body.name });
+    genre = await genre.save();
+    res.send(genre);
 });
 
 routes.put('/:id', auth, async (req, res) => {
