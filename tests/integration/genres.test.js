@@ -45,65 +45,50 @@ describe('/api/genres', () => {
     })
 
     describe('POST /', () => { 
-        it('should return a 401 if client is not logged in', async () => {
-            const res = await request(server)
+
+        let token;
+        let name;
+
+        const exec = async () => {
+            return await request(server)
                 .post('/api/genres')
-                .send({ name: ' genre1' });
+                .set('x-auth-token', token)
+                .send({ name: name })
+        }
+
+        beforeEach(() => {
+            token = new User().generateAuthToken(); 
+            name = 'genre1'
+        })
+
+        it('should return a 401 if client is not logged in', async () => {
+            token = ''
+            const res = await exec();
             expect(res.status).toBe(401)
         })
-    })
 
-    describe('POST /', () => { 
         it('should return a 400 if genre is less then 5 characters', async () => {
-            const token = new User().generateAuthToken(); 
-
-            const res = await request(server)
-                .post('/api/genres')
-                .set('x-auth-token', token)
-                .send({ name: '1234' });
+            name = '1234'
+            const res = await exec();
             expect(res.status).toBe(400)
         })
-    })
 
-    describe('POST /', () => { 
         it('should return a 400 if genre is more than 50 characters', async () => {
-            const token = new User().generateAuthToken(); 
-
-            const res = await request(server)
-                .post('/api/genres')
-                .set('x-auth-token', token)
-                .send({ name: new Array(52).join('a') });
+            name = new Array(52).join('a')
+            const res = await exec();
             expect(res.status).toBe(400)
         })
-    })
 
-    describe('POST /', () => { 
         it('it should save the genre if it is valid', async () => {
-            const token = new User().generateAuthToken(); 
-
-            const res = await request(server)
-                .post('/api/genres')
-                .set('x-auth-token', token)
-                .send({ name: 'genre1' });
-
+            await exec();    
             const genre = await Genre.find({ name: 'genre1' });
             expect(genre).not.toBeNull();
         })
-    })
 
-
-    describe('POST /', () => { 
         it('it should return the genre if it is valid', async () => {
-            const token = new User().generateAuthToken(); 
-
-            const res = await request(server)
-                .post('/api/genres')
-                .set('x-auth-token', token)
-                .send({ name: 'genre1' });
+            const res = await exec();
             expect(res.body).toHaveProperty('_id');
             expect(res.body).toHaveProperty('name', 'genre1');
         })
     })
-
-
 })
