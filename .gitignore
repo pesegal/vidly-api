@@ -2,3 +2,4 @@ node_modules
 initEnv.sh
 *.log
 logfile.log
+coverage/
